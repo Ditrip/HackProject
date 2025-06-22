@@ -1,0 +1,14 @@
+services:
+  front:
+    build: ./front
+    ports: ["4200:4200"]
+
+  back:
+    build: ./back
+    ports: ["80:80"]
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
