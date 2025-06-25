@@ -1,0 +1,306 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'primeicons/primeicons.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #1a1a1a;
+  color: #e5e5e5;
+  height: 100vh;
+  overflow: hidden;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.chat-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  background: #2d2d2d;
+  border-bottom: 1px solid #404040;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.chat-header h1 {
+  color: #ffffff;
+}
+
+.chat-header .btn {
+  background-color: #404040;
+  border-color: #525252;
+  color: #e5e5e5;
+}
+
+.chat-header .btn:hover {
+  background-color: #525252;
+  border-color: #666666;
+  color: #ffffff;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background: #1a1a1a;
+}
+
+.chat-input-container {
+  background: #2d2d2d;
+  border-top: 1px solid #404040;
+  padding: 1rem;
+}
+
+.message {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.message.user {
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.message.user .message-avatar {
+  background: #10a37f;
+  color: white;
+}
+
+.message.assistant .message-avatar {
+  background: #19c37d;
+  color: white;
+}
+
+.message-content {
+  max-width: 70%;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  line-height: 1.5;
+}
+
+.message.user .message-content {
+  background: #10a37f;
+  color: white;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.message.assistant .message-content {
+  background: #3a3a3a;
+  color: #e5e5e5;
+  border: 1px solid #525252;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.chat-input-wrapper {
+  position: relative;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.chat-input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0.75rem 3rem 0.75rem 1rem;
+  border: 1px solid #525252;
+  border-radius: 0.75rem;
+  resize: none;
+  font-size: 16px;
+  line-height: 1.5;
+  background: #3a3a3a;
+  color: #e5e5e5;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.chat-input::placeholder {
+  color: #9ca3af;
+}
+
+.chat-input:focus {
+  border-color: #10a37f;
+  box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.2);
+}
+
+.send-button {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 0.375rem;
+  background: #10a37f;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.send-button:hover:not(:disabled) {
+  background: #0d8f6b;
+}
+
+.send-button:disabled {
+  background: #525252;
+  cursor: not-allowed;
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.typing-dots {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9ca3af;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+.typing-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typing {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.welcome-message {
+  text-align: center;
+  padding: 2rem;
+  color: #9ca3af;
+}
+
+.welcome-message h2 {
+  color: #e5e5e5;
+  margin-bottom: 0.5rem;
+}
+
+/* Scrollbar styling for dark theme */
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: #525252;
+  border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: #666666;
+}
+
+/* Dark theme for Bootstrap components */
+.btn-outline-secondary {
+  color: #e5e5e5;
+  border-color: #525252;
+}
+
+.btn-outline-secondary:hover {
+  color: #ffffff;
+  background-color: #525252;
+  border-color: #666666;
+}
+
+.btn-outline-secondary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(82, 82, 82, 0.5);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .message-content {
+    max-width: 85%;
+  }
+
+  .chat-input-container {
+    padding: 0.75rem;
+  }
+
+  .chat-header {
+    padding: 0.75rem;
+  }
+}
+
+/* Additional dark theme enhancements */
+.h4,
+h4 {
+  color: #ffffff;
+}
+
+.gap-2 > * {
+  color: #e5e5e5;
+}
+
+/* Focus states for accessibility */
+button:focus-visible {
+  outline: 2px solid #10a37f;
+  outline-offset: 2px;
+}
+
+/* Selection styling */
+::selection {
+  background-color: #10a37f;
+  color: white;
+}
+
+::-moz-selection {
+  background-color: #10a37f;
+  color: white;
+}
