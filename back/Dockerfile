@@ -21,12 +21,12 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 
 WORKDIR /usr/local/app
 
-COPY poetry.lock pyproject.toml /usr/local/app
+COPY poetry.lock pyproject.toml /usr/local/app/
 
 RUN poetry install --no-root --no-interaction --no-ansi
 
-COPY . /usr/local/app
+COPY ./src /usr/local/app/src
 
 EXPOSE 8000
 
-CMD ["fastapi", "run", "src/main.py", "--port", "80"]
+CMD ["fastapi", "run", "src/main.py", "--reload", "--port", "80"]

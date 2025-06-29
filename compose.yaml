@@ -1,10 +1,18 @@
 services:
   front:
     build: ./front
+    volumes:
+      - type: bind
+        source: ./front/src
+        target: /usr/local/app/src
     ports: ["4200:4200"]
 
   back:
     build: ./back
+    volumes:
+      - type: bind
+        source: ./back/src
+        target: /usr/local/app/src
     ports: ["80:80"]
 
   db:
