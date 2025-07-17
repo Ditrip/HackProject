@@ -60,12 +60,3 @@ class MyVectorDB:
             print(f"⚠️ Exception while fetching page {page_id}: {e}")
             return ""
         
-    def test(self):
-        data = self.collection.get()
-        # Only return a subset for readability
-        return {
-            "ids": data["ids"],
-            "documents": data["documents"]
-        }
-        
-    

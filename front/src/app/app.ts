@@ -1,7 +1,8 @@
-import { Component, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewChecked, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
+import { ApiService } from './api.service';
 
 interface Message {
   id: number;
@@ -26,6 +27,7 @@ export class App implements AfterViewChecked {
   isTyping = false;
   private messageIdCounter = 1;
   private shouldScrollToBottom = false;
+  private apiService = inject(ApiService);
 
   ngAfterViewChecked() {
     if (this.shouldScrollToBottom) {
@@ -55,35 +57,22 @@ export class App implements AfterViewChecked {
     if (this.messageInput?.nativeElement) {
       this.messageInput.nativeElement.style.height = 'auto';
     }
-
+    console.log('START');
+    // this.apiService.getData();
     // Simulate AI response
-    this.simulateAIResponse(userMessage.content);
+    this.AIResponse(userMessage.content);
   }
 
-  private simulateAIResponse(userInput: string) {
+  private AIResponse(userInput: string) {
     this.isTyping = true;
     this.shouldScrollToBottom = true;
 
-    // Simulate typing delay
-    setTimeout(
-      () => {
-        const responses = [
-          'I understand your question. Let me help you with that.',
-          "That's an interesting point. Here's what I think about it...",
-          "I'd be happy to assist you with that. Based on what you've asked...",
-          'Great question! Let me break this down for you.',
-          "I can help you with that. Here's my response to your inquiry.",
-          "Thank you for your message. Here's what I can tell you about that topic.",
-          "That's a thoughtful question. Let me provide you with some insights.",
-          "I appreciate you asking. Here's my take on what you've mentioned.",
-        ];
-
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-
+    this.apiService.sendQuery(userInput).subscribe({
+      next: response => {
         const assistantMessage: Message = {
           id: this.messageIdCounter++,
           role: 'assistant',
-          content: randomResponse + ' ' + this.generateContextualResponse(userInput),
+          content: JSON.stringify(response),
           timestamp: new Date(),
         };
 
@@ -91,12 +80,7 @@ export class App implements AfterViewChecked {
         this.isTyping = false;
         this.shouldScrollToBottom = true;
       },
-      1000 + Math.random() * 2000
-    ); // Random delay between 1-3 seconds
-  }
-
-  private generateContextualResponse(userInput: string): string {
-    return "Hello! It's great to meet you. How can I assist you today?";
+    });
   }
 
   onKeyDown(event: KeyboardEvent) {

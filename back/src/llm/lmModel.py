@@ -65,4 +65,4 @@ class MyLLM:
             {"role": "user", "content": context_prompt}
         ]
 
-        return self._generate(messages, max_new_tokens=300)
+        return self._generate(messages, max_new_tokens=50)

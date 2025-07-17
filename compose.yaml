@@ -6,6 +6,8 @@ services:
         source: ./front/src
         target: /usr/local/app/src
     ports: ["4200:4200"]
+    networks:
+      - app-network
 
   back:
     build: ./back
@@ -13,14 +15,14 @@ services:
       - type: bind
         source: ./back/src
         target: /usr/local/app/src
-    ports: ["80:80"]
+    ports: ["8000:8000"]
     environment:
       username: "test"
       password: "test"
       CONFLUENCE_BASE_URL: "test"
+    networks:
+      - app-network
 
-  db:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: example
+networks:
+  app-network:
+    driver: bridge
