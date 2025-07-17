@@ -13,6 +13,7 @@ torch = {version = "^2.7.1+cpu", source = "pytorch-cpu"}
 torchvision = {version = "^0.22.1+cpu", source = "pytorch-cpu"}
 torchaudio = {version = "^2.7.1+cpu", source = "pytorch-cpu"}
 chromadb = "^1.0.15"
+black = "^25.1.0"
 
 
 [[tool.poetry.source]]
