@@ -27,6 +27,8 @@ RUN poetry install --no-root --no-interaction --no-ansi
 
 COPY ./src /usr/local/app/src
 
+RUN python /usr/local/app/src/llm/loadLLM.py
+
 EXPOSE 8000
 
 CMD ["fastapi", "run", "src/main.py", "--reload", "--port", "80"]
