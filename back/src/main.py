@@ -39,4 +39,17 @@ def process_user_prompt(prompt: InputModel):
     result = myDB.query(prompt.prompt)
     docs = result.get("documents", [])
     flattened_docs = docs[0] if docs else []
-    return myLLM.answer_from_context(flattened_docs, prompt.prompt)
+    ids = result.get("ids", [])
+    page_id = ids[0][0] if ids else None
+    answer = myLLM.answer_from_context(flattened_docs, prompt.prompt)
+    metas = result.get("metadatas", [])
+    page_url = metas[0][0].get("url") if metas and metas[0] else None
+
+    if page_url:
+        final_text = f"{answer}\n\nSource URL: {page_url}"
+    else:
+        final_text = answer
+    
+    return final_text
+
+   

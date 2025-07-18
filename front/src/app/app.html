@@ -31,7 +31,7 @@
         <i class="pi pi-android"></i>
         }
       </div>
-      <div class="message-content">{{ message.content }}</div>
+      <div class="message-content" [innerHTML]="message.content"></div>
     </div>
     } @if (isTyping) {
     <div class="message assistant">

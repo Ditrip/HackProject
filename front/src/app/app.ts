@@ -68,11 +68,32 @@ export class App implements AfterViewChecked {
     this.shouldScrollToBottom = true;
 
     this.apiService.sendQuery(userInput).subscribe({
-      next: response => {
+      next: (response: any) => {
+        let rawText: string = '';
+
+        if (typeof response === 'string') {
+          rawText = response;
+        } else if (response?.answer) {
+          rawText = String(response.answer);
+        } else if (response?.message) {
+          rawText = String(response.message);
+        } else {
+          rawText = JSON.stringify(response, null, 2);
+        }
+        
+        const safeText: string = String(rawText);
+
+        const formattedResponse = safeText
+          .replace(/\n/g, '<br>')
+          .replace(
+            /(https?:\/\/\S+)/g,
+            '<a href="$1" target="_blank">$1</a>'
+          );
+
         const assistantMessage: Message = {
           id: this.messageIdCounter++,
           role: 'assistant',
-          content: JSON.stringify(response),
+          content: formattedResponse,
           timestamp: new Date(),
         };
 
@@ -80,6 +101,10 @@ export class App implements AfterViewChecked {
         this.isTyping = false;
         this.shouldScrollToBottom = true;
       },
+      error: err => {
+        console.error('API Error:', err);
+        this.isTyping = false;
+      }
     });
   }
 

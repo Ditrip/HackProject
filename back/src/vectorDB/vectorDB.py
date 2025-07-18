@@ -29,16 +29,18 @@ class MyVectorDB:
     def fetch_and_import_pages(self, page_ids: list[str]):
         documents = []
         ids = []
+        metadatas = []
 
         for pid in page_ids:
             print(f"📄 Fetching Confluence page {pid} ...")
-            page_text = self._fetch_confluence_page(pid)
+            page_text, page_url = self._fetch_confluence_page(pid)
             if page_text.strip():
                 ids.append(pid)
                 documents.append(page_text)
+                metadatas.append({"url": page_url})
 
         if documents:
-            self.collection.add(ids=ids, documents=documents)
+            self.collection.add(ids=ids, documents=documents, metadatas=metadatas)
         else:
             print("⚠️ No valid pages fetched.")
 
@@ -54,7 +56,12 @@ class MyVectorDB:
             data = resp.json()
             html_content = data.get("body", {}).get("storage", {}).get("value", "")
             soup = BeautifulSoup(html_content, "html.parser")
-            return soup.get_text(separator=".")
+            page_text = soup.get_text(separator=".")
+
+            webui_link = data.get("_links", {}).get("webui", "")
+            page_url = f"{self.base_url}{webui_link}" if webui_link else ""
+
+            return page_text, page_url
         
         except Exception as e:
             print(f"⚠️ Exception while fetching page {page_id}: {e}")
