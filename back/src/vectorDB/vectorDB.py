@@ -17,7 +17,7 @@ class MyVectorDB:
         if not self.username or not self.password or not self.base_url:
             raise RuntimeError("Missing required Confluence environment variables")
 
-        self.fetch_and_import_pages(["718181419", "29520970"])
+        self.fetch_and_import_pages(["926351899", "926351830"])
 
     def query(self, input_text):
         results = self.collection.query(
